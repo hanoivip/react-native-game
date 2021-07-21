@@ -48,9 +48,10 @@ export default {
 
   play: 'Chơi game',
   playing: 'Click vào đây để vào game..',
+  playMissingServer: 'Phải chọn server để vào game',
   searchLabel: 'Nhập mã giao dịch:',
   search: 'Tra cứu',
-
+  
   pay: 'Thanh toán',
   payByCredit: 'Thanh toán với số xu hiện có',
   payByCard: 'Thanh toán với thẻ trả trước',
