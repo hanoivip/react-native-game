@@ -151,13 +151,11 @@ export function payOrder(token, order, item)
 
 export function payCallback(token, order, receipt)
 {
-//  return (dispatch) => {
-    //console.log('pay callback .......' + receipt)
+  return new Promise((resolve, reject) => {
     let formData = new FormData()
     formData.append('access_token', token)
     formData.append('order', order)
     formData.append('receipt', JSON.stringify(receipt))
-//    dispatch(startLoading())
     return fetch(API_URL + '/api/purchase/callback', {
       method: 'post',
       headers: {
@@ -166,26 +164,16 @@ export function payCallback(token, order, receipt)
       body: formData
     })
     .then(res => {
-//      dispatch(endLoading())
       return res.json()
     })
     .then(json => {
-      if (json.error == 0) {
-//        dispatch(orderCallbackSuccess())
-        return true
-      }
-      else {
-//        dispatch(orderCallbackFailure(json.error, json.message))
-        return false
-      }
+      return resolve(json)
     })
     .catch(error => {
-//      dispatch(endLoading())
       console.error('order callback exception:' + error)
-//      dispatch(orderCallbackFailure(error, "Callback exception"))
-      return false
+      resolve(null)
     })
-//  }
+  })
 }
 export const orderCallbackSuccess = () => ({ type: ORDER_CALLBACK_SUCCESS })
 export const orderCallbackFailure = (error, message) => ({ type: ORDER_CALLBACK_FAIL, error, message })
