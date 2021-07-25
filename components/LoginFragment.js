@@ -1,6 +1,6 @@
 import { FORGOT_URL, AppName } from '@env'
 import React from 'react'
-import { Switch, Linking, Image } from 'react-native'
+import { Switch, Linking, Image, View } from 'react-native'
 import { Container, Content, Header, Left, Right, Body, Title, Text, Button, Card, CardItem, Input, Form, Item, Label, Footer, FooterTab, Icon, Stack } from 'native-base'
 import { common } from '../styles/app.style'
 import { showMessage } from "react-native-flash-message"

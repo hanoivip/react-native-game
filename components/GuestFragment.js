@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Container, Content, Header, Left, Right, Body, Title, Text, Button, Card, CardItem, Input, Form, Item, Label, Footer, FooterTab, Icon } from 'native-base'
+import { View } from 'react-native'
 import I18n from '../langs'
 import { showMessage } from 'react-native-flash-message'
 import { common } from '../styles/app.style'
