@@ -1,10 +1,10 @@
 import { FORGOT_URL, AppName } from '@env'
 import React from 'react'
-import { Switch, Linking, Image, View } from 'react-native'
+import { Switch, Linking, Image } from 'react-native'
 import { Container, Content, Header, Left, Right, Body, Title, Text, Button, Card, CardItem, Input, Form, Item, Label, Footer, FooterTab, Icon, Stack } from 'native-base'
 import { common } from '../styles/app.style'
 import { showMessage } from "react-native-flash-message"
-import I18n from '../i18n/i18n'
+import I18n from '../langs'
 import { styles } from '../styles/auth.style'
 
 export default class LoginFragment extends React.Component {
@@ -30,14 +30,6 @@ export default class LoginFragment extends React.Component {
     const username = this.state.username
     const password = this.state.password
     const remember = this.state.remember
-    if (username == '' || password == '') {
-      showMessage({
-        message: I18n.t('login'),
-        description: I18n.t('loginMissingParam'),
-        type: "warn",
-      })
-      return
-    }
     this.props.authLogin(username, password, remember)
     .then(result => {
       if (result == true) {
@@ -88,6 +80,7 @@ export default class LoginFragment extends React.Component {
   render()
   {
     const validators = this.props.validators
+    const logo = this.props.logo
     let usernameError = ''
     let passwordError = ''
     if (validators != null) {
@@ -98,12 +91,18 @@ export default class LoginFragment extends React.Component {
         passwordError = <Text style={common.validator}>{validators.password}</Text>
       }
     }
+    let logoTag = <Left/>
+    if (logo != null)
+    {
+      logoTag = (
+          <Left>
+            <Image source={logo} style={{ width: 32, height: 32 }}/>
+          </Left>)
+    }
     return (
       <Container>
         <Header>
-          <Left>
-            <Image source={require('../assets/icon.png')} style={{ width: 32, height: 32 }}/>
-          </Left>
+          {logoTag}
           <Body>
             <Title>Welcome to {AppName}</Title>
           </Body>

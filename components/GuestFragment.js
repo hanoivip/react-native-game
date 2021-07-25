@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Container, Content, Header, Left, Right, Body, Title, Text, Button, Card, CardItem, Input, Form, Item, Label, Footer, FooterTab, Icon } from 'native-base'
-import I18n from '../i18n/i18n'
+import I18n from '../langs'
 import { showMessage } from 'react-native-flash-message'
 import { common } from '../styles/app.style'
-import { View } from 'react-native'
 
 export default class GuestFragment extends React.Component
 {
@@ -57,8 +56,8 @@ export default class GuestFragment extends React.Component
   render()
   {
     const validators = this.state.validators
-    let usernameError = null
-    let passwordError = null
+    let usernameError = ''
+    let passwordError = ''
     if (validators != null) {
       if (validators.hasOwnProperty('username')) {
         usernameError = <Text style={common.validator}>{validators.username}</Text>

@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Container, Content, Header, Left, Right, Body, Title, Text, Button, Card, CardItem, Input, Form, Item, Label, Footer, FooterTab, Icon } from 'native-base'
-import { Switch, Linking, View } from 'react-native'
+import { Switch, Linking } from 'react-native'
 import { common } from '../styles/app.style'
 import { showMessage } from 'react-native-flash-message'
-import I18n from '../i18n/i18n'
+import I18n from '../langs'
 
 export default class RegisterFragment extends React.Component {
   constructor(props)
@@ -51,8 +51,9 @@ export default class RegisterFragment extends React.Component {
   }
   render() {
     const validators = this.props.validators
-    let usernameError = null
-    let passwordError = null
+    const logo = this.props.logo
+    let usernameError = ''
+    let passwordError = ''
     if (validators != null) {
       if (validators.hasOwnProperty('username')) {
         usernameError = <Text style={common.validator}>{validators.username}</Text>
@@ -64,10 +65,18 @@ export default class RegisterFragment extends React.Component {
         passwordError = <Text style={common.validator}>{validators.password}</Text>
       }
     }
+    let logoTag = <Left/>
+    if (logo != null)
+    {
+      logoTag = (
+          <Left>
+            <Image source={logo} style={{ width: 32, height: 32 }}/>
+          </Left>)
+    }
     return (
       <Container>
         <Header>
-          <Left />
+          {logoTag}
           <Body>
             <Title>Register new account</Title>
           </Body>
