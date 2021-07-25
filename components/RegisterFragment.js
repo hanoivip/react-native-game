@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Container, Content, Header, Left, Right, Body, Title, Text, Button, Card, CardItem, Input, Form, Item, Label, Footer, FooterTab, Icon } from 'native-base'
-import { Switch, Linking } from 'react-native'
+import { Switch, Linking, View } from 'react-native'
 import { common } from '../styles/app.style'
 import { showMessage } from 'react-native-flash-message'
-import I18n from '../langs'
+import I18n from '../i18n/i18n'
 
 export default class RegisterFragment extends React.Component {
   constructor(props)
@@ -51,9 +51,8 @@ export default class RegisterFragment extends React.Component {
   }
   render() {
     const validators = this.props.validators
-    const logo = this.props.logo
-    let usernameError = ''
-    let passwordError = ''
+    let usernameError = null
+    let passwordError = null
     if (validators != null) {
       if (validators.hasOwnProperty('username')) {
         usernameError = <Text style={common.validator}>{validators.username}</Text>
@@ -65,18 +64,10 @@ export default class RegisterFragment extends React.Component {
         passwordError = <Text style={common.validator}>{validators.password}</Text>
       }
     }
-    let logoTag = <Left/>
-    if (logo != null)
-    {
-      logoTag = (
-          <Left>
-            <Image source={logo} style={{ width: 32, height: 32 }}/>
-          </Left>)
-    }
     return (
       <Container>
         <Header>
-          {logoTag}
+          <Left />
           <Body>
             <Title>Register new account</Title>
           </Body>
@@ -86,13 +77,19 @@ export default class RegisterFragment extends React.Component {
             <Item>
               <Label>Username</Label>
               <Input onChangeText={(val) => this.setState({username: val})} value={this.state.username}/>
-              <Label>{usernameError}</Label>
             </Item>
+            { usernameError ? (
+              <Item>
+                <Label>{usernameError}</Label>
+              </Item>) : (<View/>) }
             <Item>
               <Label>Password</Label>
               <Input onChangeText={(val) => this.setState({password: val})} value={this.state.password} secureTextEntry={true}/>
-              <Label>{passwordError}</Label>
             </Item>
+            { passwordError ? (
+            <Item>
+              <Label>{passwordError}</Label>
+            </Item>) : (<View/>) }
             <Item>
               <Label>Re-Password</Label>
               <Input onChangeText={(e) => this.setState({repassword: e})} value={this.state.repassword} secureTextEntry={true}/>
