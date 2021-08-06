@@ -12,7 +12,8 @@ export function loadProducts(token)
   return (dispatch) => {
     let formData = new FormData()
     formData.append('access_token', token)
-    dispatch(startLoading())
+    formData.append('client', 'app')
+    //dispatch(startLoading())
     return fetch(API_URL + '/api/iap/items', {
       method: 'post',
       headers: {
@@ -21,13 +22,22 @@ export function loadProducts(token)
       body: formData
     })
     .then(res => {
-      dispatch(endLoading())
+      //dispatch(endLoading())
       return res.json()
     })
-    .then(json => dispatch(productsLoadedSuccess(json)))
+    .then(json => {
+		if (json.error == 0) {
+			dispatch(productsLoadedSuccess(json.data))
+			return json.data
+		}
+		else {
+			return false
+		}
+	})
     .catch(error => {
-      dispatch(endLoading())
+      //dispatch(endLoading())
       dispatch(productsLoadedFailure(error, "Load products exception"))
+	  return false
     })
   }
 }
@@ -42,9 +52,10 @@ export function createOrder(token, server, role, product)
     formData.append('svname', server)
     formData.append('role', role)
     formData.append('item', product)
+    formData.append('client', 'app')
     //console.log(JSON.stringify(formData))
     //dispatch(startLoading())
-    return fetch(API_URL + '/api/order', {
+    return fetch(API_URL + '/api/iap/order', {
       method: 'post',
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
@@ -57,11 +68,6 @@ export function createOrder(token, server, role, product)
     })
     .then(json => {
       //dispatch(endLoading())
-      if (!json.hasOwnProperty('error'))
-      {
-        console.log("Create order exception 1:" + JSON.stringify(json))
-        return false
-      }
       if (json.error == 0)
       {
         //dispatch(orderCreatedSuccess(json.data))
@@ -151,11 +157,13 @@ export function payOrder(token, order, item)
 
 export function payCallback(token, order, receipt)
 {
-  return new Promise((resolve, reject) => {
+//  return (dispatch) => {
+    //console.log('pay callback .......' + receipt)
     let formData = new FormData()
     formData.append('access_token', token)
     formData.append('order', order)
     formData.append('receipt', JSON.stringify(receipt))
+//    dispatch(startLoading())
     return fetch(API_URL + '/api/purchase/callback', {
       method: 'post',
       headers: {
@@ -164,16 +172,26 @@ export function payCallback(token, order, receipt)
       body: formData
     })
     .then(res => {
+//      dispatch(endLoading())
       return res.json()
     })
     .then(json => {
-      return resolve(json)
+      if (json.error == 0) {
+//        dispatch(orderCallbackSuccess())
+        return true
+      }
+      else {
+//        dispatch(orderCallbackFailure(json.error, json.message))
+        return false
+      }
     })
     .catch(error => {
+//      dispatch(endLoading())
       console.error('order callback exception:' + error)
-      resolve(null)
+//      dispatch(orderCallbackFailure(error, "Callback exception"))
+      return false
     })
-  })
+//  }
 }
 export const orderCallbackSuccess = () => ({ type: ORDER_CALLBACK_SUCCESS })
 export const orderCallbackFailure = (error, message) => ({ type: ORDER_CALLBACK_FAIL, error, message })

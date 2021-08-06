@@ -1,4 +1,4 @@
-import { FORGOT_URL, AppName } from '@env'
+import { FORGOT_URL, CDN_URL, AppName } from '@env'
 import React from 'react'
 import { Switch, Linking, Image, View } from 'react-native'
 import { Container, Content, Header, Left, Right, Body, Title, Text, Button, Card, CardItem, Input, Form, Item, Label, Footer, FooterTab, Icon, Stack } from 'native-base'
@@ -80,7 +80,6 @@ export default class LoginFragment extends React.Component {
   render()
   {
     const validators = this.props.validators
-    const logo = this.props.logo
     let usernameError = ''
     let passwordError = ''
     if (validators != null) {
@@ -91,14 +90,10 @@ export default class LoginFragment extends React.Component {
         passwordError = <Text style={common.validator}>{validators.password}</Text>
       }
     }
-    let logoTag = <Left/>
-    if (logo != null)
-    {
-      logoTag = (
-          <Left>
-            <Image source={logo} style={{ width: 32, height: 32 }}/>
-          </Left>)
-    }
+    let logoTag = (
+        <Left>
+          <Image source={{uri: CDN_URL + '/img/logo.png'}} style={{ width: 32, height: 32 }}/>
+        </Left>)
     return (
       <Container>
         <Header>
