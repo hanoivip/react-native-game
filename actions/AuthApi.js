@@ -292,7 +292,7 @@ export function bindGuest(token, username, password)
         formData.append('username', username)
         formData.append('password', password)
         formData.append('password_confirmation', password)
-        return fetch(SITE_URL + '/api/guest/bind', {
+        return fetch(AUTH_URL + '/api/guest/bind', {
           method: 'post',
           headers: {
             'X-Requested-With': 'XMLHttpRequest',
