@@ -16,3 +16,6 @@ import Game from 'react-native-game';
 Game;
 ```
 # react-native-game
+
+
+xxx
