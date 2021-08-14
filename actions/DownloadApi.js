@@ -105,14 +105,15 @@ export function canEnterGame(token)
         }
       }
       else {
-
-        return {"can_enter": false, "update_url": "https://play.google.com/store/search?q=" + AppName}
+        return {"can_enter": false, "update_url": API_URL}
+        //return {"can_enter": false, "update_url": "https://play.google.com/store/search?q=" + AppName}
       }
     })
     .catch(error => {
       console.log('Check enter exception:' + error)
       dispatch(endLoading())
-      return {"can_enter": false, "update_url": "https://play.google.com/store/search?q=" + AppName}
+      //return {"can_enter": false, "update_url": "https://play.google.com/store/search?q=" + AppName}
+      return {"can_enter": false, "update_url": API_URL}
     })
   }
 }
