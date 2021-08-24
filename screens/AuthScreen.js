@@ -5,8 +5,8 @@ import {
 import LoginScreen from './LoginScreen'
 import RegisterScreen from './RegisterScreen'
 
-const Stack = createStackNavigator()
 export default function AuthScreen() {
+	let Stack = createStackNavigator()
   return (
       <Stack.Navigator
         initialRouteName="LoginScreen"

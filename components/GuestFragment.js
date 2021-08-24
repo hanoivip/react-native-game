@@ -1,6 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Container, Content, Header, Left, Right, Body, Title, Text, Button, Card, CardItem, Input, Form, Item, Label, Footer, FooterTab, Icon } from 'native-base'
+import {
+  Box,
+  Text,
+  Heading,
+  VStack,
+  FormControl,
+  Input,
+  Link,
+  Button,
+  Icon,
+  IconButton,
+  HStack,
+  Divider
+} from 'native-base'
 import { View } from 'react-native'
 import I18n from '../langs'
 import { showMessage } from 'react-native-flash-message'
@@ -57,8 +70,8 @@ export default class GuestFragment extends React.Component
   render()
   {
     const validators = this.state.validators
-    let usernameError = ''
-    let passwordError = ''
+    let usernameError = <View/>
+    let passwordError = <View/>
     if (validators != null) {
       if (validators.hasOwnProperty('username')) {
         usernameError = <Text style={common.validator}>{validators.username}</Text>
@@ -71,48 +84,38 @@ export default class GuestFragment extends React.Component
       }
     }
     return (
-      <Container style={{height: '100%'}}>
-      <Header>
-        <Body>
-          <Title>You should bind your account, now!</Title>
-        </Body>
-      </Header>
-        <Content padder>
-          <Form>
-            <Item>
-              <Label>Username</Label>
-              <Input onChangeText={(val) => this.setState({username: val})} value={this.state.username}/>
-            </Item>
-            { usernameError ? (
-              <Item>
-                <Label>{usernameError}</Label>
-              </Item>) : (<View/>) }
-            <Item>
-              <Label>Password</Label>
-              <Input onChangeText={(val) => this.setState({password: val})} value={this.state.password} secureTextEntry={true}/>
-            </Item>
-            { passwordError ? (
-              <Item>
-                <Label>{passwordError}</Label>
-              </Item>) : (<View/>) }
-            <Item>
-              <Label>Re-Password</Label>
-              <Input onChangeText={(e) => this.setState({repassword: e})} value={this.state.repassword} secureTextEntry={true}/>
-            </Item>
-            <Label style={{color: 'red'}}>{this.state.message}</Label>
-          </Form>
+      <Box safeArea flex={1} p={2} w="90%" mx='auto'>
+        <Heading>
+          <Text>You should bind your account, now!</Text>
+        </Heading>
+        <VStack space={2} mt={5}>
+          <FormControl>
+            <FormControl.Label _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 600}}>
+              Username
+            </FormControl.Label>
+            <Input onChangeText={(val) => this.setState({username: val})} value={this.state.username}/>
+            { usernameError }
+            <FormControl.Label _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 600}}>
+              Password
+            </FormControl.Label>
+            <Input onChangeText={(val) => this.setState({password: val})} value={this.state.password} secureTextEntry={true}/>
+            { passwordError }
+            <FormControl.Label _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 600}}>
+              Re-Password
+            </FormControl.Label>
+            <Input onChangeText={(e) => this.setState({repassword: e})} value={this.state.repassword} secureTextEntry={true}/>
+            <Text style={{color: 'red'}}>{this.state.message}</Text>
+          </FormControl>
+        </VStack>
+        <VStack space={2}>
           <Button onPress={this.bindGuest.bind(this)}>
-            <Icon name='md-save'/>
-            <Text>Bind</Text>
+            Bind
           </Button>
-        </Content>
-        <Footer>
           <Button title="Logout" accessibilityLabel="Logout"
             onPress={() => this.props.authLogout(this.props.access_token)}>
-            <Text>Logout</Text>
-          </Button>
-        </Footer>
-      </Container>
+            Logout</Button>
+        </VStack>
+      </Box>
     )
   }
 }

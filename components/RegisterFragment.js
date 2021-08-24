@@ -1,7 +1,22 @@
 import { FORGOT_URL, CDN_URL, AppName } from '@env'
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Container, Content, Header, Left, Right, Body, Title, Text, Button, Card, CardItem, Input, Form, Item, Label, Footer, FooterTab, Icon } from 'native-base'
+import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons'
+import {
+  NativeBaseProvider,
+  Box,
+  Text,
+  Heading,
+  VStack,
+  FormControl,
+  Input,
+  Link,
+  Button,
+  Icon,
+  IconButton,
+  HStack,
+  Divider
+} from 'native-base'
 import { Switch, Linking, View, Image } from 'react-native'
 import { common } from '../styles/app.style'
 import { showMessage } from 'react-native-flash-message'
@@ -53,8 +68,8 @@ export default class RegisterFragment extends React.Component {
   render() {
     const validators = this.props.validators
     const logo = this.props.logo
-    let usernameError = ''
-    let passwordError = ''
+    let usernameError = <View/>
+    let passwordError = <View/>
     if (validators != null) {
       if (validators.hasOwnProperty('username')) {
         usernameError = <Text style={common.validator}>{validators.username}</Text>
@@ -66,55 +81,41 @@ export default class RegisterFragment extends React.Component {
         passwordError = <Text style={common.validator}>{validators.password}</Text>
       }
     }
-    let logoTag = (
-        <Left>
-          <Image source={{uri: CDN_URL + '/img/logo.png'}} style={{ width: 32, height: 32 }}/>
-        </Left>)
+    let logoTag = (<Image source={{uri: CDN_URL + '/img/logo.png'}} style={{ width: 32, height: 32 }}/>)
     return (
-      <Container>
-        <Header>
+      <Box safeArea flex={1} p={2} w="90%" mx='auto'>
+        <Heading>
           {logoTag}
-          <Body>
-            <Title>Register new account</Title>
-          </Body>
-        </Header>
-        <Content contentContainerStyle ={{paddingHorizontal: 10}}>
-          <Form>
-            <Item>
-              <Label>Username</Label>
-              <Input onChangeText={(val) => this.setState({username: val})} value={this.state.username}/>
-            </Item>
-            { usernameError ? (
-              <Item>
-                <Label>{usernameError}</Label>
-              </Item>) : (<View/>) }
-            <Item>
-              <Label>Password</Label>
-              <Input onChangeText={(val) => this.setState({password: val})} value={this.state.password} secureTextEntry={true}/>
-            </Item>
-            { passwordError ? (
-            <Item>
-              <Label>{passwordError}</Label>
-            </Item>) : (<View/>) }
-            <Item>
-              <Label>Re-Password</Label>
-              <Input onChangeText={(e) => this.setState({repassword: e})} value={this.state.repassword} secureTextEntry={true}/>
-            </Item>
-            <Label style={{color: 'red'}}>{this.state.message}</Label>
-          </Form>
-        </Content>
-        <Footer>
-          <FooterTab>
-            <Button onPress={this.register.bind(this)}>
-              <Icon name='play'/>
-              <Text>OK</Text>
-            </Button>
-            <Button onPress={() => this.props.back()}>
-              <Text>Cancel</Text>
-            </Button>
-          </FooterTab>
-        </Footer>
-      </Container>
+          <Text>Register new account</Text>
+        </Heading>
+        <VStack space={2} mt={5}>
+          <FormControl>
+            <FormControl.Label _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 600}}>
+              Username
+            </FormControl.Label>
+            <Input onChangeText={(val) => this.setState({username: val})} value={this.state.username}/>
+            { usernameError }
+            <FormControl.Label _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 600}}>
+              Password
+            </FormControl.Label>
+            <Input onChangeText={(val) => this.setState({password: val})} value={this.state.password} secureTextEntry={true}/>
+            { passwordError }
+            <FormControl.Label _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 600}}>
+              Re-Password
+            </FormControl.Label>
+            <Input onChangeText={(e) => this.setState({repassword: e})} value={this.state.repassword} secureTextEntry={true}/>
+            <Text style={{color: 'red'}}>{this.state.message}</Text>
+          </FormControl>
+        </VStack>
+        <HStack space={2}  mt={5}>
+          <Button colorScheme="cyan" _text={{color: 'white' }} onPress={this.register.bind(this)} >
+              SignUp
+          </Button>
+          <Button colorScheme="cyan" _text={{color: 'white' }} onPress={() => this.props.back()} >
+              Cancel
+          </Button>
+        </HStack>
+      </Box>
     )
   }
 }
